@@ -19,7 +19,10 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', views.index),
-    path('', include('resume.urls')),
+    path('', views.index),
+    path('resumes/', include('resume.urls')),
     path('vacancies/', include('vacancy.urls')),
+    path('login', views.HyperJobLoginView.as_view()),
+    path('signup', views.HyperJobSignUpView.as_view()),
+    path('logout/', views.LogOut),
 ]
