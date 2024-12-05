@@ -1,0 +1,5 @@
+<form method="post" action="login">
+  {% csrf_token %}
+  <table>{{ form.as_p }}</table>
+  <button type="submit">Login</button>
+</form>

@@ -9,3 +9,4 @@ def index(request):
 <p><a href="/vacancies">Vacancies</a></p>
 <p><a href="/resumes">Resumes</a></p>
 <p><a href="/home">Personal Profile</a></p>''')
+
