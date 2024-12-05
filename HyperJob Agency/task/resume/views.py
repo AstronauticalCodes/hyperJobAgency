@@ -1,22 +1,18 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from . models import Resume
 from django.views.generic import CreateView
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, authenticate
 from django.http import HttpResponse
+from .models import SignUpForm
+from django.contrib.auth import logout
 
 
 def index(request):
-    return HttpResponse('''<h2>Welcome to HyperJob!</h2>
-<p><a href="/login">Login</a></p>
-<p><a href="/logout">Logout</a></p>
-<p></p><a href="/signup">Signup</a></p>
-<p><a href="/vacancies">Vacancies</a></p>
-<p><a href="/resumes">Resumes</a></p>
-<p><a href="/home">Personal Profile</a></p>''')
-
+    return render(request, 'index.html')
 
 class ResumeView(View):
     template_name = 'resume/resumes.html'
@@ -30,7 +26,7 @@ class HyperJobLoginView(LoginView):
     form = AuthenticationForm
     # redirect_authenticated_user = True
     template_name = 'login.html'
-    success_url = 'login'
+    success_url = '/'
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name, context={'form': self.form})
@@ -39,6 +35,28 @@ class HyperJobLoginView(LoginView):
 class HyperJobSignUpView(CreateView):
     form = UserCreationForm
     template_name = 'signup.html'
+    success_url = 'login'
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name, context={'form': self.form})
+
+
+    def post(self, request, *args, **kwargs):
+        form = SignUpForm(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+            user.refresh_from_db()
+            user.save()
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=user.username, password=raw_password)
+            login(request, user)
+            return redirect('/login')
+        else:
+            print('not valid')
+            return HttpResponse("<h2>not vaild</h2>")
+
+
+def LogOut(request):
+    logout(request)
+    return redirect('/')
