@@ -1,0 +1,10 @@
+<h2>Create Resume</h2>
+<form method="post">
+    {% csrf_token %}
+<!--    <label>Description</label>-->
+<!--    <input type="text" name="Description"><br>-->
+<!--    <table>{{ form.as_p }}</table>-->
+    <label>Description</label>
+    <input type="text" name="description">
+    <button type="submit">Create</button>
+</form>
