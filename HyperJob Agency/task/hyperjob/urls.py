@@ -25,4 +25,5 @@ urlpatterns = [
     path('login', views.HyperJobLoginView.as_view()),
     path('signup', views.HyperJobSignUpView.as_view()),
     path('logout/', views.LogOut),
+    path('home/', views.ProfileView.as_view())
 ]

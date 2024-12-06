@@ -30,19 +30,12 @@ class ResumeCreateView(View):
             return HttpResponse("<h3>Login First!!</h3>")
 
     def post(self, request, *args, **kwargs):
-        # print(request.POST)
-        # print(request.POST['description'])
         usernames = [user.username for user in User.objects.all()]
-        # print(usernames)
         custom_POST = request.POST.copy()
         custom_POST['author'] = str(usernames.index(request.user.username) + 1)
-        # print('request', request.POST)
-        # print('custom', custom_POST)
         form = self.form(custom_POST)
-        # print(request.user.username)
         if form.is_valid():
             form.save()
-            # print(form.cleaned_data['description'])
             return redirect('/')
         else:
             return HttpResponse("<h2>Not valid</h2>")

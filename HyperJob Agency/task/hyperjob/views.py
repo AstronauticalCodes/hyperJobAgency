@@ -5,6 +5,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponse
 from resume.models import SignUpForm
 from django.shortcuts import render, redirect
+from django.views import View
 
 # Create your views here.
 def index(request):
@@ -56,3 +57,17 @@ def LogOut(request):
     logout(request)
     return redirect('/')
 
+
+class ProfileView(View):
+    template_name = 'profile_page.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            if request.user.is_staff:
+                return render(request, 'profile_page.html',
+                              context={'username': request.user.username, 'option': 'vacancy', 'staff': True})
+            else:
+                return render(request, 'profile_page.html',
+                              context={'username': request.user.username, 'option': 'resume', 'staff': False})
+        else:
+            return HttpResponse('<h2>Login First!!</h2>')

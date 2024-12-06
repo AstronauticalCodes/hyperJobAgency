@@ -10,3 +10,7 @@ class VacancyView(View):
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name, context={'vacancies': self.model.objects.all()})
+
+
+class VacancyCreateView(View):
+    pass
