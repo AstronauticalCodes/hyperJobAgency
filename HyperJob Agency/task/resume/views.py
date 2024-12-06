@@ -20,7 +20,6 @@ class ResumeView(View):
 
 class ResumeCreateView(View):
     template_name = 'resume/resume_create.html'
-    model = Resume
     form = ResumeForm
 
     def get(self, request, *args, **kwargs):
